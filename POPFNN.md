@@ -1,0 +1,44 @@
+- ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2F-gIGh5kHjq.png?alt=media&token=368c1635-3968-49f5-92ca-5acfc48ac37c)
+- # **网络结构**
+    - 第一层(Input Linguistic Layer I)(**Input nodes**):输入节点
+        - 输入为$$n_1$$维的向量。
+    - 第二层(Condition Layer II)(**Input label nodes**):每个输入节点对应了多个fuzzy membership function
+        - 向量的第$$i$$维，对应着$$J_i$$个模糊隶属函数，隶属函数的数量总和为$$n_2$$。因此第二层一共有$$n_2$$个维度，并且有：
+        - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FK4PGkZt2ff.png?alt=media&token=30242244-c5e8-4296-8387-de9942be710d)
+    - 第三层(Rule Layer III)(**Rule Nodes**):通过fuzzy membership function里的每个关系的输出，来得到rule的结果
+        - 第三层一共有$$n_3$$层，为规则数。
+    - 第四层(Consequence IV)(**Output Label nodes**):通过rule的结果，来得到consequence layer的值
+        - 第四层通过规则的结果得到输出的语义项，总数为$$n_4$$。由于最后一层为$$n_5$$个输出，有：
+        - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FfsaoJNOGKM.png?alt=media&token=bf8f4ed0-3e4b-4621-9ead-99b2407ade4c)
+    - 第五层(Output Linguistic Layer V)(**Output nodes**):最终通过consequence layer的值，得到输出
+        - 一共有$$n_5$$个
+- 
+- # **第二层(Condition Layer)**
+    - 网络的输入是上一层的输入，针对每一个输入，输出是一组模糊隶属函数。
+    - ## **POPFNN**
+        - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FpHHwBJkYBB.png?alt=media&token=ad88e276-5210-44b7-b830-bd7b34424f5d)
+    - ## **POPFNN-AARS**
+        - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FMXiX2yQo7S.png?alt=media&token=2e551f9a-08c3-4fcb-8bd3-02ca50743243)
+- 
+- # **第三层(Rule-base Layer)**
+    - 在TVR和CRI方法中，每个规则节点$$o_k^{III}$$对应着不同维度下的不同模糊隶属函数的不同组合。例如对于二维向量，每个维度有四个隶属函数，那么会有16种组合。以新冠风险为例，假设分为[幼儿，青年，中年，老年]以及[并发症严重，身体糟糕，身体一般，身体健康]四个部分。对于一个样本，假设是5岁，健康指数100%，最后的规则函数里的16维，只有对应幼儿和身体健康的维度约为1，其余约为0。
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FJrtgJ-z3jk.png?alt=media&token=d21a69d1-5919-402e-a819-dc4f5ff122b4)
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2Fa5emKkvUZf.png?alt=media&token=8eca0fdf-898a-4a83-a8ab-ab6cb792143b)
+- 
+- # **第四层(Consequence Layer)**
+    - 以POPFNN-CRI为例，还是以上文为例，假如$$f_{m,l}^{IV}$$(重病的模糊隶属函数的值)(该值可通过对于最终的label建立模糊隶属函数得到)与[并发症严重，老年]以及[并发症严重，幼儿]相连，那么求其两个rule下的max值即可。
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2F6X1OP1LmZE.png?alt=media&token=a9dd58c1-60e8-4202-bb7d-b4e19d0a8a9e)
+- 
+- # **第五层(Output Layer)**
+    - 该部分涉及到了如何进行defuzzification，假设最终的输出的$$m$$维的，对于第$$m$$维的参数，有$$L_m$$个隶属函数。该层需要在知道隶属函数的情况下，计算出最终的defuzzification后的具体数值（例如新冠风险率）。我们只考虑第$$m$$维的输出，由于里面分了$$L_m$$段，每一段隶属函数的质心定为$$\nu_{m,l}^{IV}$$,每个隶属函数的权重为$$w_{m,l}^{IV}*o_k^{IV}$$，最终的输出值为其的加权平均。
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2FD7I-Smn5mJ.png?alt=media&token=40639194-1fe5-4ef7-9ee5-1212952d6878)
+    - 
+- # **聚类( Learning Vector Quantization)**
+    - POPFNN的第一步，是通过LVQ算法生成模糊函数。
+- 
+- # **POP Learning**
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FResearch_NK%2F-s6_ObPro6.png?alt=media&token=5caac875-911f-41e0-8086-94fd895bf099)
+    - 大体流程如下：
+        - 1）连接每一个向量不同维度的隶属函数，得到最终的$$c_1*c_2.....*c_{n_1}$$个rule
+        - 2）针对每一个数据，计算出rule的数值，对同数据的标签，计算出输出的隶属函数的数值，随后通过两者相乘得到权重。对于每一个Rule，得到其最大的权重，将其与输出端的隶属函数进行连接。如果该值为0，删除该节点。
+        - 3）针对保留节点，删除condition层的连接
