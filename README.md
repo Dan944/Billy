@@ -1,12 +1,14 @@
-# Simple search engine
-A simple search engine based on PyTerrier
-
+# Project1 of Wang Shuai
+A face parsing project
 
 ## Prepare work
-Strongly recommend run in `Linux`, like `google colab`
-### Environment requirment
-Java 11+; PyTerrier; Pandas; Progressbar2;
-### Set data and path 
+Strongly recommend run in google colab, there is no need to pip any new lib on it. 
+
+### File structure
+![image](https://user-images.githubusercontent.com/45554899/160069538-83ca0dd3-1a0a-4237-8304-1b4b8c7b27c1.png)
+
+
+### Prepare data and path 
 download the data of `yelp_academic_dataset_review.json`, and set the path of it as `path` at begin
     
     
